@@ -9,7 +9,7 @@ namespace BotWebhook
         {
             var url = "https://kotantelegrambot.azurewebsites.net";
             Console.WriteLine("Start");
-            var client = new TelegramBotClient("473499861:AAFz5dGwvIvPbQhx7g29c-9ARb7KTH8JMh4");
+            var client = new TelegramBotClient("secret");
             client.SetWebhookAsync(url + "/bot/handle").Wait();
             Console.ReadLine();
             client.SetWebhookAsync().Wait();
