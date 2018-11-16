@@ -18,7 +18,7 @@ namespace KotanTelegramBot
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton((arg) => new TelegramBotClient("473499861:AAFz5dGwvIvPbQhx7g29c-9ARb7KTH8JMh4"));
+            services.AddSingleton((arg) => new TelegramBotClient("secret"));
             services.AddLogging();
             services.AddMvc();
 
