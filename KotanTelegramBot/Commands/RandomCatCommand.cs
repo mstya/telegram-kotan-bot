@@ -1,8 +1,9 @@
 ﻿using System;
+using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
-using KotanTelegramBot.Models;
-using Newtonsoft.Json;
+using System.Xml.Serialization;
+using KotanTelegramBot.Models.XML;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 
@@ -21,10 +22,12 @@ namespace KotanTelegramBot.Commands
         {
             HttpClient hc = new HttpClient();
             hc.BaseAddress = new Uri("http://thecatapi.com");
-            HttpResponseMessage msg = await hc.GetAsync("/api/images/get");
-            string json = await msg.Content.ReadAsStringAsync();
-            CatModel model = JsonConvert.DeserializeObject<CatModel>(json);
-            await botClient.SendTextMessageAsync(message.Chat.Id, model.message); 
+            HttpResponseMessage msg = await hc.GetAsync("/api/images/get?format=xml");
+            MemoryStream xmlMs = new MemoryStream();
+            Stream stream = await msg.Content.ReadAsStreamAsync();
+            XmlSerializer serializer = new XmlSerializer(typeof(CatResponse));
+            CatResponse response = (CatResponse)serializer.Deserialize(stream);
+            await botClient.SendPhotoAsync(message.Chat.Id, new FileToSend(response.Data.Images.Image.Url));
         }
     }
 }

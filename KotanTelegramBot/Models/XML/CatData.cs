@@ -1,10 +1,12 @@
-﻿using System;
+﻿using System.Xml.Serialization;
+
 namespace KotanTelegramBot.Models.XML
 {
+    [XmlRoot(ElementName = "data")]
     public class CatData
     {
-        public CatData()
-        {
-        }
+        [XmlElement(ElementName = "images")]
+        public CatImages Images { get; set; }
     }
+
 }

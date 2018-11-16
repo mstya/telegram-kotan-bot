@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KotanTelegramBot", "KotanTelegramBot\KotanTelegramBot.csproj", "{AD874355-A957-47D0-AB4E-B382ED0256C4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BotWebhook", "BotWebhook\BotWebhook.csproj", "{ADDA2861-DBB9-4557-A621-31C556A879A7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,5 +15,9 @@ Global
 		{AD874355-A957-47D0-AB4E-B382ED0256C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD874355-A957-47D0-AB4E-B382ED0256C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD874355-A957-47D0-AB4E-B382ED0256C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADDA2861-DBB9-4557-A621-31C556A879A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADDA2861-DBB9-4557-A621-31C556A879A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADDA2861-DBB9-4557-A621-31C556A879A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADDA2861-DBB9-4557-A621-31C556A879A7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
