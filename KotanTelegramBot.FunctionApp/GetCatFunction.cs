@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using KotanTelegramBot.FunctionApp.Commands;
+using MediatR;
 using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.DataContracts;
 using Microsoft.AspNetCore.Mvc;
@@ -18,18 +19,20 @@ namespace KotanTelegramBot.FunctionApp
 {
     public class GetCatFunction
     {
-        private readonly Dictionary<string, IKotanCommand> _commands;
+        private readonly Dictionary<string, ICatCommandMessage> _commands;
         private readonly TelemetryClient _telemetryClient;
-        
-        public GetCatFunction(TelegramBotClient botClient, TelemetryClient telemetryClient)
+        private readonly IMediator _mediator;
+
+        public GetCatFunction(TelegramBotClient botClient, TelemetryClient telemetryClient, IMediator mediator)
         {
             _telemetryClient = telemetryClient;
-            _commands = new Dictionary<string, IKotanCommand>
+            _mediator = mediator;
+            _commands = new Dictionary<string, ICatCommandMessage>
             {
-                { "/get_cat", new RandomCatCommand(botClient) },
-                { "/get_gif_cat", new RandomCatGifCommand(botClient) },
-                { "/get_cat@phenix117bot", new RandomCatCommand(botClient) },
-                { "/get_gif_cat@phenix117bot", new RandomCatGifCommand(botClient) },
+                { "/get_cat", new SendRandomCatCommand() },
+                { "/get_gif_cat",  new SendRandomCatGifCommand() },
+                { "/get_cat@phenix117bot",  new SendRandomCatCommand() },
+                { "/get_gif_cat@phenix117bot", new SendRandomCatGifCommand() },
             };
         }
         
@@ -52,10 +55,11 @@ namespace KotanTelegramBot.FunctionApp
             if (message?.Type == MessageType.TextMessage)
             {
                 _telemetryClient.TrackTrace(new TraceTelemetry("Message text: " + message.Text));
-                if(_commands.TryGetValue(message.Text, out IKotanCommand command))
-                { 
+                if(_commands.TryGetValue(message.Text, out ICatCommandMessage command))
+                {
+                    command.Message = message;
                     _telemetryClient.TrackTrace(new TraceTelemetry("Command handler: " + command.GetType()));
-                    await command.Execute(message);
+                    await _mediator.Send(command);
                 }
             }
 
