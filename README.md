@@ -5,8 +5,8 @@ WELCOME
 Telegram bot name - @phenix117bot.
 
 There are two types of commands:
-/get_gif_cat
-/get_cat
+* /get_gif_cat
+* /get_cat
 
 How it looks like in action:
 
