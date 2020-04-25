@@ -2,6 +2,7 @@
 Simple Azure Function for handling requests for getting images and gifs with cats from telegram bot.
 
 WELCOME
+
 Telegram bot name - @phenix117bot.
 
 There are four types of commands:
