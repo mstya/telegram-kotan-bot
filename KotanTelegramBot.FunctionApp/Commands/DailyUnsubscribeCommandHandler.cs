@@ -20,14 +20,15 @@ namespace KotanTelegramBot.FunctionApp.Commands
         {
             TableResult result = await _mediator.Send(new FindSubscriberQuery(request.Message, request.FunctionContext), cancellationToken);
 
-            if (result != null)
+            if (result.Result != null)
             {
                 var deleteOperation = TableOperation.Delete((CatSubscriber)result.Result);
                 await request.FunctionContext.SubscribersCloudTable.ExecuteAsync(deleteOperation);
+                await _mediator.Send(new ChatInformCommand(request.Message.Chat.Id, "Пока:("), cancellationToken);
             }
             else
             {
-                // you are not subscribed.
+                await _mediator.Send(new ChatInformCommand(request.Message.Chat.Id, "Подпишись сначала!"), cancellationToken);
             }
             
             return new Unit();

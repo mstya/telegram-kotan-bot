@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Telegram.Bot;
+using Telegram.Bot.Types.Enums;
 
 namespace KotanTelegramBot.BotInstaller
 {
@@ -25,7 +26,7 @@ namespace KotanTelegramBot.BotInstaller
         {
             var url = _configuration["BotFunctionUrl"];
             var client = new TelegramBotClient(_configuration["TelegramSecretToken"]);
-            await client.SetWebhookAsync(url);
+            await client.SetWebhookAsync(url, allowedUpdates: new [] { UpdateType.MessageUpdate });
         }
     }
 }

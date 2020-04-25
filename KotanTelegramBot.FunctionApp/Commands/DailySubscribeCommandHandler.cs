@@ -29,10 +29,11 @@ namespace KotanTelegramBot.FunctionApp.Commands
                     RowKey = request.Message.Chat.Id.ToString()
                 });
                 await request.FunctionContext.SubscribersCloudTable.ExecuteAsync(insertOperation);
+                await _mediator.Send(new ChatInformCommand(request.Message.Chat.Id, "Хооооба!"), cancellationToken);
             }
             else
             {
-                // you are already subscribed.
+                await _mediator.Send(new ChatInformCommand(request.Message.Chat.Id, "Уже подписан, пес!"), cancellationToken);
             }
             
             return new Unit();

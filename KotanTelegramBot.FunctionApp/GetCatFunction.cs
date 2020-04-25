@@ -44,7 +44,6 @@ namespace KotanTelegramBot.FunctionApp
             [Table("DailyCatSubscribers")] CloudTable subscribersTable,
             ILogger log)
         {
-
             var functionContext = new FunctionContext
             {
                 SubscribersCloudTable = subscribersTable
@@ -59,6 +58,13 @@ namespace KotanTelegramBot.FunctionApp
                 return new BadRequestResult();
             }
 
+            await HandleMessage(update, functionContext);
+
+            return new OkResult();
+        }
+
+        private async Task HandleMessage(Update update, FunctionContext context)
+        {
             Message message = update.Message;
             _telemetryClient.TrackTrace(new TraceTelemetry("Message type: " + message?.Type));
             if (message?.Type == MessageType.TextMessage)
@@ -67,11 +73,9 @@ namespace KotanTelegramBot.FunctionApp
                 if (_commands.TryGetValue(message.Text, out Func<Message, FunctionContext, Task> command))
                 {
                     _telemetryClient.TrackTrace(new TraceTelemetry("Command handler: " + command.GetType()));
-                    await command(message, functionContext);
+                    await command(message, context);
                 }
             }
-
-            return new OkResult();
         }
     }
 }

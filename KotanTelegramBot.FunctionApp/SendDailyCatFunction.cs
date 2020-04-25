@@ -1,13 +1,10 @@
-using System;
-using System.Linq;
 using System.Threading.Tasks;
 using KotanTelegramBot.FunctionApp.Commands;
 using KotanTelegramBot.FunctionApp.Models;
 using MediatR;
 using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Host;
 using Microsoft.Extensions.Logging;
-using Telegram.Bot.Types;
+using Microsoft.WindowsAzure.Storage.Table;
 
 namespace KotanTelegramBot.FunctionApp
 {
@@ -22,26 +19,15 @@ namespace KotanTelegramBot.FunctionApp
         
         // 14:00 every day
         [FunctionName("SendDailyCatFunction")]
-        public void RunAsync(
-            [TimerTrigger("0 0 14 * * *")] TimerInfo myTimer,
-            [Table("DailyCatSubscribers", "subscribers")] IQueryable<CatSubscriber> subscribers,
+        public async Task RunAsync(
+            [TimerTrigger("0 0 22 * * *")] TimerInfo myTimer,
+            [Table("DailyCatSubscribers")] CloudTable subscribersTable,
             ILogger log)
         {
-            var subscribersList = subscribers.ToList();
-            
-            subscribersList.ForEach(x =>
+            await _mediator.Send(new DailyNotifyCommand(new FunctionContext
             {
-                _mediator.Send(new SendRandomCatGifCommand
-                {
-                    Message = new Message
-                    {
-                        Chat = new Chat
-                        {
-                            Id = x.ChannelId
-                        }
-                    }
-                });
-            });
+                SubscribersCloudTable = subscribersTable
+            }));
         }
     }
 }
