@@ -17,7 +17,7 @@ namespace KotanTelegramBot.FunctionApp
             _mediator = mediator;
         }
         
-        // 14:00 every day
+        // 22:00 every day
         [FunctionName("SendDailyCatFunction")]
         public async Task RunAsync(
             [TimerTrigger("0 0 22 * * *")] TimerInfo myTimer,
