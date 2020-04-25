@@ -4,9 +4,11 @@ Simple Azure Function for handling requests for getting images and gifs with cat
 WELCOME
 Telegram bot name - @phenix117bot.
 
-There are two types of commands:
-* /get_gif_cat
-* /get_cat
+There are four types of commands:
+* /get_cat - Get random image with cat
+* /get_gif_cat - Get random gif with cat
+* /daily_subscribe - Subscribe for getting cat gif of the day
+* /daily_unsubscribe - Unsubscribe of getting gif-cat:(
 
 How it looks like in action:
 
